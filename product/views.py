@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework import generics
+from django.conf import settings
 
 # stripe
 import stripe
@@ -14,4 +15,5 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
 
