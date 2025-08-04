@@ -8,3 +8,5 @@ class ProductAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'created_at', 'is_paid']
+
+admin.site.register(Order, OrderAdmin)
