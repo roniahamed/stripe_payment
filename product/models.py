@@ -21,3 +21,4 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Order number: {self.id}, by {self.user.username} '
+        
