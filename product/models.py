@@ -16,8 +16,10 @@ class Product(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product')
+    payment_intent_id = models.CharField(max_length=255, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
+    is_refunded = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Order number: {self.id}, by {self.user.username} '

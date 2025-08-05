@@ -66,7 +66,7 @@ class StripeWebhookView(APIView):
 
     event_handler_map = {
         'checkout.session.completed': webhook_handlers.handle_payment_success,
-        'checkout.session.expired': webhook_handlers.handle_payment_expired,
+        'checkout.session.expired': webhook_handlers.handle_session_expired,
         'checkout.session.async_payment_failed': webhook_handlers.handle_payment_failure,
         'charge.refunded': webhook_handlers.handle_refund,
     }
