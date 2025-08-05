@@ -9,6 +9,7 @@ import stripe
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Product, Order
+from . import webhook_handlers
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -63,6 +64,13 @@ class CreateCheckoutSessionView(APIView):
 class StripeWebhookView(APIView):
     permission_classes = [AllowAny]
 
+    event_handler_map = {
+        'checkout.session.completed': webhook_handlers.handle_payment_success,
+        'checkout.session.expired': webhook_handlers.handle_payment_expired,
+        'checkout.session.async_payment_failed': webhook_handlers.handle_payment_failure,
+        'charge.refunded': webhook_handlers.handle_refund,
+    }
+
     def post(self, request, *args, **kwargs):
         payload = request.body
         sig_header = request.META['HTTP_STRIPE_SIGNATURE']
@@ -74,5 +82,9 @@ class StripeWebhookView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         except stripe.error.SignatureVerificationError as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-            
+        
+        handler = self.event_handler_map.get(event['type'])
+
+
+
 
