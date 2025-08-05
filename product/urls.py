@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import RegisterView
+from .views import RegisterView, ProductListView, ProductDetailView, CreateCheckoutSessionView
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
+    path('products/', ProductListView.as_view(), name='product-list'),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product-detail view'),
+    path('products/<int:pk>/create-checkout-session/', CreateCheckoutSessionView.as_view(),name='create-checkout-session'),
 ]
