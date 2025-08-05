@@ -7,6 +7,6 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'user', 'created_at', 'is_paid']
+    list_display = ['id', 'user','payment_intent_id', 'created_at', 'is_paid', 'is_refunded']
 
 admin.site.register(Order, OrderAdmin)
