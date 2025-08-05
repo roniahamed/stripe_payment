@@ -85,6 +85,16 @@ class StripeWebhookView(APIView):
         
         handler = self.event_handler_map.get(event['type'])
 
+        if handler:
+            try:
+                handler(event['data']['object'])
+            except Exception as e:
+                print(f'Error handling event {event['type']}: {e}')
+                return Response({'error':'Internal server error in handler.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
+        return Response(status=status.HTTP_200_OK)
+
+
 
 
 
