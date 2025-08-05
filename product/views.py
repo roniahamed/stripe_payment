@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, ProductSerializer, OrderSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
-from rest_framework import generics
+from rest_framework import generics, status
 from django.conf import settings
 
 # stripe
@@ -24,7 +24,6 @@ class ProductDetailView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
-
 
 
 stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
@@ -59,4 +58,21 @@ class CreateCheckoutSessionView(APIView):
             return Response({'checkout_url':checkout_session})
         except Product.DoesNotExist:
             return Response({'error':'Product not found'})
+
+
+class StripeWebhookView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        payload = request.body
+        sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+        event = None
+
+        try:
+            event = stripe.Webhook.construct_event(payload, sig_header, settings.STRIPE_WEBHOOK_SECRET)
+        except ValueError as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except stripe.error.SignatureVerificationError as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+            
 
