@@ -27,7 +27,10 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
 
-class 
+class PaymentSuccessView(TemplateView):
+    template_name = 'success.html'
+
+
 
 stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
 
