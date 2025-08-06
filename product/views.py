@@ -52,15 +52,16 @@ class CreateCheckoutSessionView(APIView):
                     },
                     'quantity':1,
             }
-                ]
-            )
+                ],
+            
             mode = 'payment',
-            success_url = 'http://localhost:8000/success/',
-            cancel_url = 'http://localhost:8000/cancel/',
+            success_url = 'http://localhost:8001/api/success/',
+            cancel_url = 'http://localhost:8001/api/cancel/',
             metadata = {
                 'user_id': request.user.id,
                 'product_id':product.id
             }
+            )
 
             return Response({'checkout_url':checkout_session})
         except Product.DoesNotExist:
