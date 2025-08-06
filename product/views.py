@@ -30,7 +30,7 @@ class ProductDetailView(generics.RetrieveAPIView):
 stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateCheckoutSessionView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         product_id = self.kwargs.get('pk')
