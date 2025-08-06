@@ -21,7 +21,7 @@ def handle_payment_success(session_data):
         user = User.objects.get(pk=user_id)
         product = Product.objects.get(id=product_id)
 
-        order, created = Order.objects.updated_or_create(
+        order, created = Order.objects.update_or_create(
             payment_intent_id = payment_intent_id,
             defaults = {
                 'user': user,

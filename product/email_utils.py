@@ -12,7 +12,6 @@ def send_order_email(user, order, subject, template_name):
             'order_price':order.product.price,
         }
         message = render_to_string(template_name, context)
-
         send_mail (subject, message, settings.DEFAULT_FROM_EMAIL,[user.email], html_message=message, fail_silently=False)
     except Exception as e:
         pass
