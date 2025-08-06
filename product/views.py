@@ -36,7 +36,7 @@ class PaymentCancelView(TemplateView):
 stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
 
 class CreateCheckoutSessionView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         product_id = self.kwargs.get('pk')
