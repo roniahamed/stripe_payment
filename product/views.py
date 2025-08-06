@@ -1,3 +1,4 @@
+from django.views.generic import TemplateView
 from django.contrib.auth.models import User
 from .serializers import UserSerializer, ProductSerializer, OrderSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -26,6 +27,7 @@ class ProductDetailView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     permission_classes = [AllowAny]
 
+class 
 
 stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
 
