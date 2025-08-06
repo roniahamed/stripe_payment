@@ -30,7 +30,8 @@ class ProductDetailView(generics.RetrieveAPIView):
 class PaymentSuccessView(TemplateView):
     template_name = 'success.html'
 
-
+class PaymentCancelView(TemplateView):
+    template_name = 'cancel.html'
 
 stripe.api_key = settings.api_key = settings.STRIPE_SECRET_KEY
 
