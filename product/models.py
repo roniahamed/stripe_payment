@@ -30,3 +30,19 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"Cart for {self.user.username}"
+    
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='products')
+    quantity = models.PositiveIntegerField(default=1, validators=[MinValueValidator])
+
+    class Meta:
+        # Ensures a product cannot be added to the same cart twice.
+        unique_together = ('cart', 'product')
+
+    def __str__(self):
+        return f'{self.quantity} X {self.product.name}'
+    
+    @property
+    def total_price(self):
+        return self.quantity * self.product.price
