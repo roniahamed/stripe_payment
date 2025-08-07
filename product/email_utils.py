@@ -15,3 +15,4 @@ def send_order_email(user, order, subject, template_name):
         send_mail (subject, message, settings.DEFAULT_FROM_EMAIL,[user.email], html_message=message, fail_silently=False)
     except Exception as e:
         pass
+    
