@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User 
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 # Create your models here.
 
 
@@ -24,3 +24,9 @@ class Order(models.Model):
     def __str__(self):
         return f'Order number: {self.id}, by {self.user.username} '
         
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Cart for {self.user.username}"
