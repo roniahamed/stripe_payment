@@ -2,8 +2,7 @@ from django.db import transaction
 from .models import Order, Product
 import logging
 from django.contrib.auth.models import User
-from .email_utils import send_order_email
-
+from .signals import order_successfully_processed
 
 logger = logging.getLogger(__name__)
 
@@ -36,7 +35,7 @@ def handle_payment_success(session_data):
         else:
             logger.info(f"New order #{order.id} updated.")
         
-        send_order_email(user, order, 'Your order has been successful!', './order_success_email.html')
+        order_successfully_processed.send(sender=Order, order=order, created = created)
     except User.DoesNotExist:
         logger.error(f" Critical Error: User ID {user_id} not found in the database.")
     
@@ -71,7 +70,7 @@ def handle_payment_failure(session_data):
             id = 'Incomplete'
             product = products
 
-        send_order_email(user, TempOrder(), 'Your payment has failed', './payment_failure_email.html')
+        # send_order_email(user, TempOrder(), 'Your payment has failed', './payment_failure_email.html')
 
     except User.DoesNotExist:
         logger.error(f'User ID {user_id} not found while sending payment failure notification.')
@@ -109,7 +108,7 @@ def handle_refund(refund_data):
         order.save()
         logger.info(f'Order #{order.id} successfully marked as refunded.')
 
-        send_order_email(order.user, order, 'Your order has been refunded', './refund_processed_email.html' )
+        # send_order_email(order.user, order, 'Your order has been refunded', './refund_processed_email.html' )
     except Order.DoesNotExist:
         logger.error(f'Critical: No order found for payment_intent_id {payment_intent_id}.')    
     except Exception as e:
