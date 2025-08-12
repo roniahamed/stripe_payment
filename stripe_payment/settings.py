@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     #additional app
     'product',
+    'notifications',
 
 ]
 
