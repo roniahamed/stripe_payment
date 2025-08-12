@@ -55,8 +55,8 @@ class CreateCheckoutSessionView(APIView):
                 ],
             
             mode = 'payment',
-            success_url = 'http://localhost:8001/api/success/',
-            cancel_url = 'http://localhost:8001/api/cancel/',
+            success_url = 'http://localhost:8002/api/success/',
+            cancel_url = 'http://localhost:8002/api/cancel/',
             metadata = {
                 'user_id': request.user.id,
                 'product_id':product.id
